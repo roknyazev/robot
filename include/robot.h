@@ -18,13 +18,13 @@
 #define PIN_TRIG 10
 #define PIN_ECHO 11
 
-
+#define STEP 5
 
 void uSensor();
 void stop();
-void go_forward();
-void go_back();
-void turn_right();
-void turn_left();
+void go_forward(uint8_t &val1, uint8_t &val2, uint8_t &dir1, uint8_t &dir2);
+void go_back(uint8_t &val1, uint8_t &val2, uint8_t &dir1, uint8_t &dir2);
+void turn_right(uint8_t &val1, uint8_t &val2, uint8_t &dir1, uint8_t &dir2);
+void turn_left(uint8_t &val1, uint8_t &val2, uint8_t &dir1, uint8_t &dir2);
 
 #endif //UNTITLED_ROBOT_H

@@ -22,6 +22,11 @@ void setup()
 	}
 }
 
+uint8_t val1 = 0;
+uint8_t val2 = 0;
+uint8_t dir1 = HIGH;
+uint8_t dir2 = HIGH;
+
 void loop()
 {
 	period_start = millis();
@@ -34,13 +39,13 @@ void loop()
 		if (control == "0")
 			stop();
 		if (control == "1")
-			go_forward();
+			go_forward(val1, val2, dir1, dir2);
 		if (control == "2")
-			go_back();
+			go_back(val1, val2, dir1, dir2);
 		if (control == "3")
-			turn_right();
+			turn_right(val1, val2, dir1, dir2);
 		if (control == "4")
-			turn_left();
+			turn_left(val1, val2, dir1, dir2);
 		Serial.println(control);
 	}
 
