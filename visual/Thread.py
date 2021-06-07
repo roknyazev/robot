@@ -32,7 +32,6 @@ class ThreadForIntegrator(QThread, QObject):
 
                 ser.write((code + "\n").encode())
                 s = s.decode('ascii')
-                print(s)
                 v = float(s[0:4])
                 a = float(s[6:-1])
                 x = [a, v]
