@@ -1,11 +1,12 @@
-#include <Arduino.h>
-#include "Servo.h"
+#include "robot.h"
 
-#define SERVO_PIN 13
-#define PIN_TRIG 10
-#define PIN_ECHO 11
+uint8_t period = 20;
+uint8_t angle = 0;
+uint8_t angle_step = 2;
 
+uint64_t period_start;
 Servo servo;
+String control;
 
 void setup()
 {
@@ -14,34 +15,34 @@ void setup()
 	servo.write(0);
 	pinMode(PIN_TRIG, OUTPUT);
 	pinMode(PIN_ECHO, INPUT);
-}
 
-uint8_t period = 20;
-uint64_t period_start;
-
-uint8_t angle = 0;
-uint8_t angle_step = 2;
-
-void uSensor()
-{
-	double distance;
-
-	digitalWrite(PIN_TRIG, LOW);
-	delayMicroseconds(5);
-	digitalWrite(PIN_TRIG, HIGH);
-	delayMicroseconds(10);
-	digitalWrite(PIN_TRIG, LOW);
-	distance = (double)pulseIn(PIN_ECHO, HIGH, 17460) / 5820;
-	Serial.print(distance);
-	Serial.print("   ");
-	Serial.println(angle);
+	for (int i = 4; i < 8; i++)
+	{
+		pinMode(i, OUTPUT);
+	}
 }
 
 void loop()
 {
 	period_start = millis();
 	uSensor();
+	Serial.println(angle);
 
+	if (Serial.available())
+	{
+		control = Serial.readStringUntil('\n');
+		if (control == "0")
+			stop();
+		if (control == "1")
+			go_forward();
+		if (control == "2")
+			go_back();
+		if (control == "3")
+			turn_right();
+		if (control == "4")
+			turn_left();
+		Serial.println(control);
+	}
 
 	angle += angle_step;
 	if (angle > 180)
@@ -50,8 +51,6 @@ void loop()
 		angle += 2 * angle_step;
 	}
 	servo.write(angle);
-
-
 
 
 	while (millis() - period_start < period)
